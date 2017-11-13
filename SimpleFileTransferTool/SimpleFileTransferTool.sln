@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileReceiver", "FileReceiver\FileReceiver.csproj", "{A01050A7-4B18-4CA3-A1F6-85C0133F342C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSender", "FileSender\FileSender.csproj", "{3D9B9F2D-1031-4CAE-BCFE-A6A39C1E710D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPGet", "IPGet\IPGet.csproj", "{850C9118-2C22-4204-BA6D-16330ED8A9B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A01050A7-4B18-4CA3-A1F6-85C0133F342C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A01050A7-4B18-4CA3-A1F6-85C0133F342C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A01050A7-4B18-4CA3-A1F6-85C0133F342C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A01050A7-4B18-4CA3-A1F6-85C0133F342C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D9B9F2D-1031-4CAE-BCFE-A6A39C1E710D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D9B9F2D-1031-4CAE-BCFE-A6A39C1E710D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D9B9F2D-1031-4CAE-BCFE-A6A39C1E710D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D9B9F2D-1031-4CAE-BCFE-A6A39C1E710D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{850C9118-2C22-4204-BA6D-16330ED8A9B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{850C9118-2C22-4204-BA6D-16330ED8A9B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{850C9118-2C22-4204-BA6D-16330ED8A9B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{850C9118-2C22-4204-BA6D-16330ED8A9B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
