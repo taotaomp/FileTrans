@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using IPGet;
+using System.IO;
 namespace FileReceiver
 {
     class Program
@@ -23,10 +24,12 @@ namespace FileReceiver
                 {
                     receiver = listener.AcceptSocket(); 
                     Console.WriteLine("con!");
-                    byte[] buff = new byte[20];
-                    receiver.Receive(buff);
-                    string a = Encoding.UTF8.GetString(buff);
-                    Console.WriteLine(a);
+                    byte[] buff = new byte[256];
+                    Thread t = new Thread(delegate () { receiver.Receive(buff); });
+                    t.Start();
+                    FileStream fileReceiver = new FileStream(@"D:\s.png", FileMode.Create);
+                    fileReceiver.Write(buff,0,255);
+                    fileReceiver.Close();
                 }
             }
             

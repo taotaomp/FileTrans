@@ -12,14 +12,13 @@ namespace IPGet
     {
         /// <summary>
         /// 获取两个IP端间的IP地址集合
-        /// （前3段需相同）
+        /// （前3段需相同）（只3适用于IPv4）
         /// </summary>
         /// <param name="IPStart">起始IP</param>
         /// <param name="IPEnd">结束IP</param>
         /// <returns></returns>
         public ArrayList IPListRequire(IPAddress IPStart,IPAddress IPEnd)
         {
-            if (IPStart == null || IPEnd == null) throw new InvalidOperationException();
             ArrayList IPContainer = new ArrayList();
             string IPStart_S = IPStart.ToString();
             string IPEnd_S = IPEnd.ToString();

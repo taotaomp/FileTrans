@@ -38,6 +38,8 @@
             this.button_addFile = new System.Windows.Forms.Button();
             this.label_localIP = new System.Windows.Forms.Label();
             this.label_searchWaiting = new System.Windows.Forms.Label();
+            this.button_cancelConnect = new System.Windows.Forms.Button();
+            this.button_Send = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox_IPStart
@@ -108,6 +110,7 @@
             this.button_addFile.TabIndex = 7;
             this.button_addFile.Text = "添加文件";
             this.button_addFile.UseVisualStyleBackColor = true;
+            this.button_addFile.Click += new System.EventHandler(this.button_addFile_Click);
             // 
             // label_localIP
             // 
@@ -127,11 +130,32 @@
             this.label_searchWaiting.TabIndex = 9;
             this.label_searchWaiting.Text = "检索中...";
             // 
+            // button_cancelConnect
+            // 
+            this.button_cancelConnect.Location = new System.Drawing.Point(395, 49);
+            this.button_cancelConnect.Name = "button_cancelConnect";
+            this.button_cancelConnect.Size = new System.Drawing.Size(75, 23);
+            this.button_cancelConnect.TabIndex = 10;
+            this.button_cancelConnect.Text = "取消连接";
+            this.button_cancelConnect.UseVisualStyleBackColor = true;
+            // 
+            // button_Send
+            // 
+            this.button_Send.Location = new System.Drawing.Point(314, 132);
+            this.button_Send.Name = "button_Send";
+            this.button_Send.Size = new System.Drawing.Size(75, 23);
+            this.button_Send.TabIndex = 11;
+            this.button_Send.Text = "Fa♂送";
+            this.button_Send.UseVisualStyleBackColor = true;
+            this.button_Send.Click += new System.EventHandler(this.button_Send_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 261);
+            this.Controls.Add(this.button_Send);
+            this.Controls.Add(this.button_cancelConnect);
             this.Controls.Add(this.label_searchWaiting);
             this.Controls.Add(this.label_localIP);
             this.Controls.Add(this.button_addFile);
@@ -163,6 +187,8 @@
         private System.Windows.Forms.Button button_addFile;
         private System.Windows.Forms.Label label_localIP;
         private System.Windows.Forms.Label label_searchWaiting;
+        private System.Windows.Forms.Button button_cancelConnect;
+        private System.Windows.Forms.Button button_Send;
     }
 }
 
