@@ -27,25 +27,14 @@ namespace FileSender
         ArrayList IPList;   //connect IP container
         IPEndPoint ep;      //local IP and port container
         Socket[] scaner = new Socket [60];    //multiple Socket container
-        FileStream[] filePicker = new FileStream [5];  //multiple File container
-        byte[][] buff = new byte[5][];
+        int socketFlag = 0; //套接字数组索引
+        FileStream filePicker;  //multiple File container
+        byte[] buff;
 
         public void localIPInfoSet()    //设置本地IP信息
         {
             ip = new IPRequire().Ip;        //这里调用了自定义的获取本地IP的类，来获取IP
             ep = new IPEndPoint(ip, 13250);      //通过获取到的IP设置IPEndPoint对象
-            //Socket scaner = new Socket(SocketType.Stream,ProtocolType.IP);
-
-            
-            //scaner.Connect();
-            //foreach (IPAddress item in IPList)      //遍历ip地址集合，依次向集合中的ip申请连接
-            //{
-            //    IPEndPoint epe = new IPEndPoint(item, 13252);
-            //    //scaner.Connect(epe);
-            //}
-            //MessageBox.Show(scaner.Connected.ToString());
-            //byte[] buff = System.Text.UTF8Encoding.UTF8.GetBytes("fuck you!");
-            //scaner.Send(buff);
         }
 
 
@@ -55,7 +44,11 @@ namespace FileSender
             label_localIP.Text = "本机IP为：" + ip.ToString();
             label_searchWaiting.Hide();     //隐藏“检索中”标识
             button_cancelConnect.Hide();    //隐藏“取消连接”按钮
-            
+            textBox_IPStart.Text = ip.ToString().Split('.')[0] 
+                + '.' + ip.ToString().Split('.')[1] 
+                + '.' + ip.ToString().Split('.')[2] + '.';
+            textBox_IPEnd.Text = textBox_IPStart.Text;
+
         }
 
         private void Button_searchIP_Click(object sender, EventArgs e)      //IP list set
@@ -85,7 +78,6 @@ namespace FileSender
         {
             try
             {
-                int socketFlag = 0; //套接字数组索引
                 foreach (IPAddress item in IPList)      //遍历IP容器，为每个IP创建socket套接字
                 {
                     scaner[socketFlag] = new Socket(SocketType.Stream, ProtocolType.IP);
@@ -107,33 +99,37 @@ namespace FileSender
         {
             OpenFileDialog fileSelecter = new OpenFileDialog();
             fileSelecter.ShowDialog(this);
-            string filePath = fileSelecter.FileName;
-            listBox_addedFile.Items.Add(filePath);
+            label_fileName.Text= fileSelecter.FileName;
+            buff = new byte[1024];
+            buff = System.Text.Encoding.UTF8.GetBytes("FN"+fileSelecter.SafeFileName);
+            byteSend();
         }
 
         private void button_Send_Click(object sender, EventArgs e)     //send data
         {
             fileSerialize();
-            Thread t =null;
-            foreach (Socket item in scaner)
-            {
-                t = new Thread(delegate () 
-                {
-                    item.Send(buff[0]);
-                });
-                t.Start();
-            }
-            t.Abort();
         }
 
         private void fileSerialize()
         {
-            for (int i = 0; i < listBox_addedFile.Items.Count; i++)
+            
+            filePicker = new FileStream(label_fileName.Text, FileMode.Open);   //path,FileMode
+            buff = new byte[1024];
+            int FileBytelenth;
+            while((FileBytelenth = filePicker.Read(buff,0,1024))!=0)
             {
-                filePicker[i] = new FileStream(listBox_addedFile.Items[i].ToString(), FileMode.Open);   //path,FileMode
-                buff[i] = new byte[256];
-                filePicker[i].Read(buff[i], 0, 255);
-                filePicker[i].Close();
+                byteSend();
+            }
+            filePicker.Close();
+        
+        }
+
+        private void byteSend()
+        {
+            Thread t = null;
+            for (int i = 0; i < socketFlag; i++) 
+            {
+                scaner[i].Send(buff);
             }
         }
     }

@@ -34,12 +34,12 @@
             this._ = new System.Windows.Forms.Label();
             this.Button_searchIP = new System.Windows.Forms.Button();
             this.listBox_connectedIP = new System.Windows.Forms.ListBox();
-            this.listBox_addedFile = new System.Windows.Forms.ListBox();
             this.button_addFile = new System.Windows.Forms.Button();
             this.label_localIP = new System.Windows.Forms.Label();
             this.label_searchWaiting = new System.Windows.Forms.Label();
             this.button_cancelConnect = new System.Windows.Forms.Button();
             this.button_Send = new System.Windows.Forms.Button();
+            this.label_fileName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox_IPStart
@@ -93,22 +93,13 @@
             this.listBox_connectedIP.Size = new System.Drawing.Size(180, 196);
             this.listBox_connectedIP.TabIndex = 5;
             // 
-            // listBox_addedFile
-            // 
-            this.listBox_addedFile.FormattingEnabled = true;
-            this.listBox_addedFile.ItemHeight = 12;
-            this.listBox_addedFile.Location = new System.Drawing.Point(235, 161);
-            this.listBox_addedFile.Name = "listBox_addedFile";
-            this.listBox_addedFile.Size = new System.Drawing.Size(235, 88);
-            this.listBox_addedFile.TabIndex = 6;
-            // 
             // button_addFile
             // 
             this.button_addFile.Location = new System.Drawing.Point(395, 132);
             this.button_addFile.Name = "button_addFile";
             this.button_addFile.Size = new System.Drawing.Size(75, 23);
             this.button_addFile.TabIndex = 7;
-            this.button_addFile.Text = "添加文件";
+            this.button_addFile.Text = "选择文件";
             this.button_addFile.UseVisualStyleBackColor = true;
             this.button_addFile.Click += new System.EventHandler(this.button_addFile_Click);
             // 
@@ -149,17 +140,25 @@
             this.button_Send.UseVisualStyleBackColor = true;
             this.button_Send.Click += new System.EventHandler(this.button_Send_Click);
             // 
+            // label_fileName
+            // 
+            this.label_fileName.AutoSize = true;
+            this.label_fileName.Location = new System.Drawing.Point(233, 173);
+            this.label_fileName.Name = "label_fileName";
+            this.label_fileName.Size = new System.Drawing.Size(0, 12);
+            this.label_fileName.TabIndex = 12;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 261);
+            this.Controls.Add(this.label_fileName);
             this.Controls.Add(this.button_Send);
             this.Controls.Add(this.button_cancelConnect);
             this.Controls.Add(this.label_searchWaiting);
             this.Controls.Add(this.label_localIP);
             this.Controls.Add(this.button_addFile);
-            this.Controls.Add(this.listBox_addedFile);
             this.Controls.Add(this.listBox_connectedIP);
             this.Controls.Add(this.Button_searchIP);
             this.Controls.Add(this._);
@@ -183,12 +182,12 @@
         private System.Windows.Forms.Label _;
         private System.Windows.Forms.Button Button_searchIP;
         private System.Windows.Forms.ListBox listBox_connectedIP;
-        private System.Windows.Forms.ListBox listBox_addedFile;
         private System.Windows.Forms.Button button_addFile;
         private System.Windows.Forms.Label label_localIP;
         private System.Windows.Forms.Label label_searchWaiting;
         private System.Windows.Forms.Button button_cancelConnect;
         private System.Windows.Forms.Button button_Send;
+        private System.Windows.Forms.Label label_fileName;
     }
 }
 

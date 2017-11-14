@@ -24,11 +24,28 @@ namespace FileReceiver
                 {
                     receiver = listener.AcceptSocket(); 
                     Console.WriteLine("con!");
-                    byte[] buff = new byte[256];
-                    Thread t = new Thread(delegate () { receiver.Receive(buff); });
-                    t.Start();
-                    FileStream fileReceiver = new FileStream(@"D:\s.png", FileMode.Create);
-                    fileReceiver.Write(buff,0,255);
+                    byte[] buff = new byte[1024];
+                    int count;
+                    FileStream fileReceiver = null;
+                    while ((count = receiver.Receive(buff))!=0)
+                    {
+                        string filename = System.Text.Encoding.UTF8.GetString(buff, 0, count);
+                        if (filename.StartsWith("FN"))
+                        {
+                            fileReceiver = new FileStream(@"C:\Users\ataoD\Desktop\" + filename.Substring(2), FileMode.Create);
+                            Console.WriteLine("file Created");
+                        }
+                        else if (fileReceiver != null) 
+                        {
+                            fileReceiver.Write(buff, 0, count);
+                            Console.WriteLine("data Received");
+                        }
+                        else
+                        {
+                            Console.WriteLine("error");
+                        }
+                    }
+                    receiver.Close();
                     fileReceiver.Close();
                 }
             }
