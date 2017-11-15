@@ -17,13 +17,11 @@ namespace IPGet
         /// <param name="IPStart">起始IP</param>
         /// <param name="IPEnd">结束IP</param>
         /// <returns></returns>
-        public ArrayList IPListRequire(IPAddress IPStart,IPAddress IPEnd)
+        public ArrayList IPListRequire(string IPStart, string IPEnd)
         {
             ArrayList IPContainer = new ArrayList();
-            string IPStart_S = IPStart.ToString();
-            string IPEnd_S = IPEnd.ToString();
-            string[] IPStart_Deal = IPStart_S.Split('.');
-            string[] IPEnd_Deal = IPEnd_S.Split('.');
+            string[] IPStart_Deal = IPStart.Split('.');
+            string[] IPEnd_Deal = IPEnd.Split('.');
             for (int i = int.Parse(IPStart_Deal[3]); i < int.Parse(IPEnd_Deal[3])+1; i++)
             {
                 string IPString = IPStart_Deal[0] + "." + IPStart_Deal[1] + "." + IPStart_Deal[2] + "." + i;

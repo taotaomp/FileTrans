@@ -30,10 +30,15 @@ namespace FileReceiver
                     while ((count = receiver.Receive(buff))!=0)
                     {
                         string filename = System.Text.Encoding.UTF8.GetString(buff, 0, count);
-                        if (filename.StartsWith("FN"))
+                        if (filename.StartsWith("THEFILENAME"))
                         {
-                            fileReceiver = new FileStream(@"C:\Users\ataoD\Desktop\" + filename.Substring(2), FileMode.Create);
+                            fileReceiver = new FileStream(@"C:\Users\Admin\Desktop\" + filename.Substring(11), FileMode.Create);
                             Console.WriteLine("file Created");
+                        }
+                        else if (filename.StartsWith("THEFILEEND"))
+                        {
+                            fileReceiver.Close();
+                            Console.WriteLine("data Completed");
                         }
                         else if (fileReceiver != null) 
                         {
@@ -46,7 +51,6 @@ namespace FileReceiver
                         }
                     }
                     receiver.Close();
-                    fileReceiver.Close();
                 }
             }
             

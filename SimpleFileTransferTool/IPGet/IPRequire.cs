@@ -40,6 +40,5 @@ namespace IPGet
             Console.WriteLine(Ip);
         }
 
-        
     }
 }

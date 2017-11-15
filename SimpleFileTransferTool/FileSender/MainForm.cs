@@ -26,8 +26,8 @@ namespace FileSender
         IPAddress ip;   //Local IP container
         ArrayList IPList;   //connect IP container
         IPEndPoint ep;      //local IP and port container
-        Socket[] scaner = new Socket [60];    //multiple Socket container
-        int socketFlag = 0; //套接字数组索引
+        Socket[] scaner = new Socket [60];    //multiple Socket container（用于存放套接字的数组，手动设定最多60个）
+        int socketFlag = 0; //套接字数组索引(用于指示当前连接了多少个客户机)
         FileStream filePicker;  //multiple File container
         byte[] buff;
 
@@ -59,7 +59,7 @@ namespace FileSender
                 string IPStart = textBox_IPStart.Text;
                 string IPEnd = textBox_IPEnd.Text;
                 if (IPStart == string.Empty || IPEnd == string.Empty) throw new IPEmptyException();
-                IPList = new IPListGenerate().IPListRequire(IPAddress.Parse(IPStart), IPAddress.Parse(IPEnd));    //这里调用了自定义的IP列表生成类，来获取规定范围内的IP
+                IPList = new IPListGenerate().IPListRequire(IPStart, IPEnd);    //这里调用了自定义的IP列表生成类，来获取规定范围内的IP
                 createSockets();
                 button_cancelConnect.Show();    //显示“取消连接”按钮   
             }
@@ -86,7 +86,7 @@ namespace FileSender
                     {
                         listBox_connectedIP.Items.Add(item);
                     }
-                    socketFlag++;
+                    socketFlag++;       //连接数量计数
                 }
             }
             catch(Exception e)
@@ -101,33 +101,33 @@ namespace FileSender
             fileSelecter.ShowDialog(this);
             label_fileName.Text= fileSelecter.FileName;
             buff = new byte[1024];
-            buff = System.Text.Encoding.UTF8.GetBytes("FN"+fileSelecter.SafeFileName);
-            byteSend();
+            buff = System.Text.Encoding.UTF8.GetBytes("THEFILENAME" + fileSelecter.SafeFileName);   //给发送的数据加上文件名前缀
+            byteSend();     //调用发送数据方法发送数据（这里发送的是文件名）
         }
 
         private void button_Send_Click(object sender, EventArgs e)     //send data
         {
-            fileSerialize();
+            fileSerializeAndSend();
         }
 
-        private void fileSerialize()
+        private void fileSerializeAndSend()
         {
             
             filePicker = new FileStream(label_fileName.Text, FileMode.Open);   //path,FileMode
             buff = new byte[1024];
-            int FileBytelenth;
-            while((FileBytelenth = filePicker.Read(buff,0,1024))!=0)
+            while(filePicker.Read(buff,0,1024)!=0)
             {
-                byteSend();
+                byteSend();     //每读一次发送一次数据
             }
+            buff = new byte[1024];
+            buff = System.Text.Encoding.UTF8.GetBytes("THEFILEEND");   //发送数据结束标志
+            byteSend();
             filePicker.Close();
-        
         }
 
-        private void byteSend()
+        private void byteSend()     //发送数据方法
         {
-            Thread t = null;
-            for (int i = 0; i < socketFlag; i++) 
+            for (int i = 0; i < socketFlag; i++)        //遍历所有套接字，发送获得的数据
             {
                 scaner[i].Send(buff);
             }
