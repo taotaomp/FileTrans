@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IPListGenerate.cs" />
+    <Compile Include="IPNotRightException.cs" />
     <Compile Include="IPRequire.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

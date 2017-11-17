@@ -19,6 +19,8 @@ namespace IPGet
         /// <returns></returns>
         public ArrayList IPListRequire(string IPStart, string IPEnd)
         {
+            IPAddress tempContainerForTryPase;
+            if (!(IPAddress.TryParse(IPStart, out tempContainerForTryPase) && IPAddress.TryParse(IPEnd, out tempContainerForTryPase))) throw new IPNotRightException();
             ArrayList IPContainer = new ArrayList();
             string[] IPStart_Deal = IPStart.Split('.');
             string[] IPEnd_Deal = IPEnd.Split('.');

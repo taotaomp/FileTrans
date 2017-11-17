@@ -35,11 +35,13 @@
             this.Button_searchIP = new System.Windows.Forms.Button();
             this.listBox_connectedIP = new System.Windows.Forms.ListBox();
             this.button_addFile = new System.Windows.Forms.Button();
-            this.label_localIP = new System.Windows.Forms.Label();
             this.label_searchWaiting = new System.Windows.Forms.Label();
             this.button_cancelConnect = new System.Windows.Forms.Button();
             this.button_Send = new System.Windows.Forms.Button();
             this.label_fileName = new System.Windows.Forms.Label();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.comboBox_IPs = new System.Windows.Forms.ComboBox();
+            this.label_localIP = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox_IPStart
@@ -103,15 +105,6 @@
             this.button_addFile.UseVisualStyleBackColor = true;
             this.button_addFile.Click += new System.EventHandler(this.button_addFile_Click);
             // 
-            // label_localIP
-            // 
-            this.label_localIP.AutoSize = true;
-            this.label_localIP.Location = new System.Drawing.Point(233, 99);
-            this.label_localIP.Name = "label_localIP";
-            this.label_localIP.Size = new System.Drawing.Size(41, 12);
-            this.label_localIP.TabIndex = 8;
-            this.label_localIP.Text = "label1";
-            // 
             // label_searchWaiting
             // 
             this.label_searchWaiting.AutoSize = true;
@@ -129,6 +122,7 @@
             this.button_cancelConnect.TabIndex = 10;
             this.button_cancelConnect.Text = "取消连接";
             this.button_cancelConnect.UseVisualStyleBackColor = true;
+            this.button_cancelConnect.Click += new System.EventHandler(this.button_cancelConnect_Click);
             // 
             // button_Send
             // 
@@ -148,11 +142,38 @@
             this.label_fileName.Size = new System.Drawing.Size(0, 12);
             this.label_fileName.TabIndex = 12;
             // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(235, 227);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(235, 23);
+            this.progressBar.TabIndex = 13;
+            // 
+            // comboBox_IPs
+            // 
+            this.comboBox_IPs.FormattingEnabled = true;
+            this.comboBox_IPs.Location = new System.Drawing.Point(280, 87);
+            this.comboBox_IPs.Name = "comboBox_IPs";
+            this.comboBox_IPs.Size = new System.Drawing.Size(173, 20);
+            this.comboBox_IPs.TabIndex = 14;
+            this.comboBox_IPs.SelectedIndexChanged += new System.EventHandler(this.comboBox_IPs_SelectedIndexChanged);
+            // 
+            // label_localIP
+            // 
+            this.label_localIP.AutoSize = true;
+            this.label_localIP.Location = new System.Drawing.Point(233, 90);
+            this.label_localIP.Name = "label_localIP";
+            this.label_localIP.Size = new System.Drawing.Size(41, 12);
+            this.label_localIP.TabIndex = 8;
+            this.label_localIP.Text = "本机IP";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 261);
+            this.Controls.Add(this.comboBox_IPs);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.label_fileName);
             this.Controls.Add(this.button_Send);
             this.Controls.Add(this.button_cancelConnect);
@@ -168,6 +189,7 @@
             this.Name = "MainForm";
             this.ShowIcon = false;
             this.Text = "发送端";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -183,11 +205,13 @@
         private System.Windows.Forms.Button Button_searchIP;
         private System.Windows.Forms.ListBox listBox_connectedIP;
         private System.Windows.Forms.Button button_addFile;
-        private System.Windows.Forms.Label label_localIP;
         private System.Windows.Forms.Label label_searchWaiting;
         private System.Windows.Forms.Button button_cancelConnect;
         private System.Windows.Forms.Button button_Send;
         private System.Windows.Forms.Label label_fileName;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.ComboBox comboBox_IPs;
+        private System.Windows.Forms.Label label_localIP;
     }
 }
 

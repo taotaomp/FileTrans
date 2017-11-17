@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+using System.Collections;
 
 namespace IPGet
 {
@@ -12,19 +13,8 @@ namespace IPGet
     /// </summary>
     public class IPRequire
     {
-        private IPAddress ip = null;
-        public IPAddress Ip
-        {
-            get
-            {
-                return ip;
-            }
-
-            set
-            {
-                ip = value;
-            }
-        }
+        public ArrayList ips = new ArrayList();
+        
 
         public IPRequire()
         {
@@ -32,12 +22,9 @@ namespace IPGet
             
             foreach (IPAddress item in hostIP.AddressList)  //运用IPHostEntry实例中的IPAddressList列表获取需要的本机IP
             {
-                if (item.ToString().Contains(".168."))
-                {
-                    Ip = item;
-                }
+                if(!item.ToString().Contains(":"))  //获取非IPv6地址
+                ips.Add(item);
             }
-            Console.WriteLine(Ip);
         }
 
     }

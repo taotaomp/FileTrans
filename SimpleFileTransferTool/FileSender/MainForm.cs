@@ -28,12 +28,19 @@ namespace FileSender
         IPEndPoint ep;      //local IP and port container
         Socket[] scaner = new Socket [60];    //multiple Socket container（用于存放套接字的数组，手动设定最多60个）
         int socketFlag = 0; //套接字数组索引(用于指示当前连接了多少个客户机)
-        FileStream filePicker;  //multiple File container
+        int fileHaveSentSize = 0;
+        
         byte[] buff;
 
         public void localIPInfoSet()    //设置本地IP信息
         {
-            ip = new IPRequire().Ip;        //这里调用了自定义的获取本地IP的类，来获取IP
+            ArrayList tempLocalIP = new IPRequire().ips; //这里调用了自定义的获取本地IP的类，来获取IP
+            foreach (IPAddress item in tempLocalIP)
+            {
+                comboBox_IPs.Items.Add(item);
+            }
+            comboBox_IPs.Text = comboBox_IPs.Items[0].ToString();
+            ip = IPAddress.Parse(comboBox_IPs.Text);
             ep = new IPEndPoint(ip, 13250);      //通过获取到的IP设置IPEndPoint对象
         }
 
@@ -41,9 +48,9 @@ namespace FileSender
         private void MainForm_Load(object sender, EventArgs e)      //form load
         {
             localIPInfoSet();
-            label_localIP.Text = "本机IP为：" + ip.ToString();
             label_searchWaiting.Hide();     //隐藏“检索中”标识
             button_cancelConnect.Hide();    //隐藏“取消连接”按钮
+            comboBox_IPs.DropDownStyle = ComboBoxStyle.DropDownList;    //不可编辑下拉框
             textBox_IPStart.Text = ip.ToString().Split('.')[0] 
                 + '.' + ip.ToString().Split('.')[1] 
                 + '.' + ip.ToString().Split('.')[2] + '.';
@@ -58,14 +65,17 @@ namespace FileSender
             {
                 string IPStart = textBox_IPStart.Text;
                 string IPEnd = textBox_IPEnd.Text;
-                if (IPStart == string.Empty || IPEnd == string.Empty) throw new IPEmptyException();
                 IPList = new IPListGenerate().IPListRequire(IPStart, IPEnd);    //这里调用了自定义的IP列表生成类，来获取规定范围内的IP
                 createSockets();
                 button_cancelConnect.Show();    //显示“取消连接”按钮   
             }
-            catch(IPEmptyException ipe)
+            catch(IPNotRightException ipe)
             {
                 MessageBox.Show(ipe.ToString());
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
             finally
             {
@@ -112,17 +122,36 @@ namespace FileSender
 
         private void fileSerializeAndSend()
         {
-            
-            filePicker = new FileStream(label_fileName.Text, FileMode.Open);   //path,FileMode
-            buff = new byte[1024];
-            while(filePicker.Read(buff,0,1024)!=0)
+            try
             {
-                byteSend();     //每读一次发送一次数据
+                FileInfo f = new FileInfo(label_fileName.Text);     //获取文件信息
+                progressBar.Maximum = (int)f.Length;
+                fileHaveSentSize = 0;
+
+                FileStream filePicker = new FileStream(label_fileName.Text, FileMode.Open);     // File container 
+                buff = new byte[1024];
+                int readCount;
+                while ((readCount = filePicker.Read(buff, 0, 1024)) != 0) 
+                {
+                    byteSend();     //每读一次发送一次数据
+                    fileHaveSentSize += readCount;
+                    progressBar.Value = fileHaveSentSize;
+                }
+
+                //发送完成后处理
+                buff = new byte[1024];
+                buff = System.Text.Encoding.UTF8.GetBytes("THEFILEEND");   //发送数据结束标志
+                byteSend();
+                filePicker.Close();
+                MessageBox.Show("文件发送完成");
+                label_fileName.Text = string.Empty;     //文件名重置
+                progressBar.Value = 0;      //进度条重置
             }
-            buff = new byte[1024];
-            buff = System.Text.Encoding.UTF8.GetBytes("THEFILEEND");   //发送数据结束标志
-            byteSend();
-            filePicker.Close();
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            
         }
 
         private void byteSend()     //发送数据方法
@@ -131,6 +160,34 @@ namespace FileSender
             {
                 scaner[i].Send(buff);
             }
+        }
+
+        private void button_cancelConnect_Click(object sender, EventArgs e)     //取消按钮
+        {
+            for (int i = 0; i < socketFlag; i++)
+            {
+                scaner[i].Close();
+            }
+            listBox_connectedIP.Items.Clear();
+            socketFlag = 0;
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)        //关闭窗口时
+        {
+            for (int i = 0; i < socketFlag; i++)
+            {
+                scaner[i].Close();
+            }
+        }
+
+        private void comboBox_IPs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ip = IPAddress.Parse(comboBox_IPs.Text);
+            ep = new IPEndPoint(ip, 13250);      //通过获取到的IP设置IPEndPoint对象
+            textBox_IPStart.Text = ip.ToString().Split('.')[0]
+                + '.' + ip.ToString().Split('.')[1]
+                + '.' + ip.ToString().Split('.')[2] + '.';
+            textBox_IPEnd.Text = textBox_IPStart.Text;
         }
     }
 }
